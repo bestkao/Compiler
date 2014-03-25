@@ -1,0 +1,5 @@
+When you are running the app and you want to open a new .x file then:
+1. Browse to the directory containing the .x file
+2. The app should find a corresponding .x.cod file If this file contains
+   debugger bytecodes (e.g., LINE) then you will be able to check out the
+   environment stack trace; otherwise the environment stack will not be provided

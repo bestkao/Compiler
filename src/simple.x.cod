@@ -1,0 +1,23 @@
+GOTO start<<1>>
+LABEL Read
+READ
+RETURN
+LABEL Write
+LOAD 0 dummyFormal
+WRITE
+RETURN
+LABEL start<<1>>
+LIT 0 i
+LIT 0 j
+LOAD 0 i
+LOAD 1 j
+BOP +
+LIT 7
+BOP +
+STORE 0 i
+LOAD 0 i
+ARGS 1
+CALL Write
+STORE 1 j
+POP 2
+HALT

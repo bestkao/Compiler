@@ -1,0 +1,68 @@
+GOTO start<<1>>
+LABEL Read
+READ
+RETURN
+LABEL Write
+LOAD 0 dummyFormal
+WRITE
+RETURN
+LABEL start<<1>>
+LIT 0 x
+GOTO continue<<3>>
+LABEL fib<<2>>
+LOAD 0 n
+LIT 1
+BOP <=
+FALSEBRANCH else<<4>>
+LIT 1
+RETURN fib<<2>>
+POP 0
+GOTO continue<<5>>
+LABEL else<<4>>
+LOAD 0 n
+LIT 2
+BOP ==
+FALSEBRANCH else<<6>>
+LIT 1
+RETURN fib<<2>>
+POP 0
+GOTO continue<<7>>
+LABEL else<<6>>
+LOAD 0 n
+LIT 2
+BOP -
+ARGS 1
+CALL fib<<2>>
+LOAD 0 n
+LIT 1
+BOP -
+ARGS 1
+CALL fib<<2>>
+BOP +
+RETURN fib<<2>>
+POP 0
+LABEL continue<<7>>
+POP 0
+LABEL continue<<5>>
+POP 0
+LIT 0    GRATIS-RETURN-VALUE
+RETURN fib<<2>>
+LABEL continue<<3>>
+LIT 0 k
+LIT 5
+STORE 0 x
+ARGS 0
+CALL Read
+ARGS 1
+CALL fib<<2>>
+ARGS 1
+CALL Write
+STORE 1 k
+LIT 0 x
+LIT 7
+STORE 2 x
+LIT 8
+STORE 2 x
+POP 1
+POP 2
+HALT
