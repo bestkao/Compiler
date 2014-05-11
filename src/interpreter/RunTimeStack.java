@@ -1,53 +1,108 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package interpreter;
 
+import java.util.*;
+
+
 /**
- * Holds the runtime stack as well as the frame pointers. It has many methods to
- * facilitate looking up values, storing them, and so on.
- * @author James Kao
+ *
+ * @author James
  */
 public class RunTimeStack {
+    
+    private final Stack<Integer> framePointers;
+    private final Vector<Integer> runStack;
+    
     public RunTimeStack() {
-        int[] framePointers = {0};
+        framePointers = new Stack<Integer>();
+        runStack = new Vector<Integer>();
+        framePointers.push(0);
     }
-    // contains Vector and Stack
-    // example:
-    //   runStack: // Vectors
-    //     0 1 4 2 9 8 7 // actual stored data
-    //   framePointers: // Stack
-    //     0 3 // indices where frames begin
-    // so theres 2 frames: "0 1 4" and "2 9 8 7"
+    
     public void dump() {
-        // dump contents of RunTimeStack itself
+        Iterator iterator = framePointers.iterator();
+        int frameCount = (Integer)iterator.next();
+        
+        if(iterator.hasNext()) {
+            frameCount = (Integer)iterator.next();
+        }
+        
+        System.out.print("[");
+        if(!runStack.isEmpty()) {
+            System.out.print(runStack.get(0));
+        }
+        
+        for(int i = 1; i < runStack.size(); i++) {
+            if(i == frameCount) {
+                System.out.print("] [" + runStack.get(i));
+                if(iterator.hasNext()){
+                    frameCount = (Integer)iterator.next();
+                }
+            }else
+                System.out.print("," + runStack.get(i));
+        }
+        System.out.println("]");
+    }
+    
+    public int getValue(int n) {
+        return runStack.get(n);
     }
     
     public int peek() {
-        return -1;
+        return runStack.lastElement();
     }
+    
+    public int peekFrame() {
+        return framePointers.peek();
+    }
+    
     public int pop() {
-        return -1;
+        int pop = runStack.lastElement();
+        runStack.remove(runStack.size() - 1);
+        return pop;
     }
     
     public int push(int i) {
+        runStack.add(i);
         return i;
     }
     
     public void newFrameAt(int offset) {
-        
+        framePointers.push(runStack.size() - offset);
     }
     
     public void popFrame() {
-        
+        int returnValue = runStack.lastElement();
+        while(runStack.size() != framePointers.peek()) {
+            runStack.remove(runStack.size() - 1 );
+        }
+        framePointers.pop();
+        runStack.add(returnValue);
     }
     
     public int store(int offset) {
-        return -1;
+        int storeValue = runStack.get(runStack.size() - 1);
+        runStack.remove(runStack.size() - 1);
+        runStack.set(framePointers.peek() + offset, storeValue);
+        return storeValue;
     }
     
     public int load(int offset) {
-        return -1;
+        int loadValue = runStack.get(framePointers.peek() + offset);
+        runStack.add(loadValue);
+        return loadValue;
     }
     
     public Integer push(Integer i) {
+        runStack.add(i);
         return i;
     }
+    
+    public int getRunStackSize() {
+        return runStack.size();
+    }
+    
 }

@@ -1,37 +1,47 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package interpreter;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import interpreter.bytecodes.ByteCode;
+import java.util.*;
+import java.io.*;
 
 /**
- * In charge of loading the code from the source file. It also has a method that
- * loads bytecode objects into an instance of the program class. This is done
- * with the help of a Hashtable that matches the bytecode to their equivalent
- * classname.
- * @author James Kao
+ *
+ * @author James
  */
 public class ByteCodeLoader extends Object{
-    // reads in the next bytecode
-    // builds an instance of the class corresponding to the bytecode
-    // the bytecode instance is added to the Program
-    // after all the bytecodes are loaded, symbolic addresses are resolved
+    
+    private final BufferedReader byteCodeReader;
+    
     public ByteCodeLoader(String programFile) throws IOException {
-        try {
-            BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
-            String line = in.readLine();
-        } catch( java.io.IOException ex ) {
-            System.out.println("**** " + ex);
-        }
+        byteCodeReader = new BufferedReader(new FileReader(programFile));
     }
     
-    public Program loadCodes() {
-        return new Program();
-    }
+    public Program loadCodes(boolean debug) throws ClassNotFoundException,
+            InstantiationException, IllegalAccessException, IOException {
 
-    // reades in the codes from the file
-    // and creates the appropriate ByteCode class
-    // ex: reads in "LIT 2"
-    //     checks CodeTable for what ByteCode to create
-    //     using 'Java reflection'
-    //  -> lit = new LitCode();
-    //     lit.init(2);
+        Program program = new Program();
+        Vector<String> args = new Vector<String>();
+        CodeTable.init(debug);
+        String readLine = byteCodeReader.readLine();
+        
+        while(readLine != null) {
+            StringTokenizer tok = new StringTokenizer(readLine);
+            args.clear();
+            String codeClass = CodeTable.get(tok.nextToken());
+            while(tok.hasMoreTokens()) {
+                args.add(tok.nextToken());
+            }
+            ByteCode byteCode = (ByteCode)(Class.forName("interpreter.bytecodes."
+                                           + codeClass).newInstance());
+            byteCode.init(args);
+            program.addCode(byteCode);
+            readLine = byteCodeReader.readLine();
+        }
+        program.resolveAddresses();
+        return program;
+    }
+    
 }

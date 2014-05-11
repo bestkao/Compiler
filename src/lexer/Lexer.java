@@ -1,6 +1,5 @@
 package lexer;
 
-
 /**
  *  The Lexer class is responsible for scanning the source file
  *  which is a stream of characters and returning a stream of 
@@ -9,7 +8,7 @@ package lexer;
  *  indication of its location in the source program to be used
  *  for error reporting; we are tracking line numbers; white spaces
  *  are space, tab, newlines
-*/
+ */
 public class Lexer {
     private boolean atEOF = false;
     private char ch;     // next character to process
@@ -24,7 +23,6 @@ public class Lexer {
         ch = source.read();
     }
 
-
     public static void main(String args[]) {
         // Print each token with line number
         Token tok;
@@ -35,9 +33,9 @@ public class Lexer {
                 String p = "";
                 if ((tok.getKind() == Tokens.Identifier) ||
                     (tok.getKind() == Tokens.INTeger) ||
-                    (tok.getKind() == Tokens.Float))
+                    (tok.getKind() == Tokens.Float)) {
                     p = tok.toString();
-                else {
+                } else {
                     p += TokenType.tokens.get(tok.getKind());
                 }
                 p += "\t" + "left: " + tok.getLeftPosition()
@@ -53,9 +51,6 @@ public class Lexer {
             while (true) {
                 char ch = s.read();
                 System.out.print(ch);
-                
-//                System.out.println("Char: " + ch + " Line: " + s.getLineno() +
-//                         "position: " + s.getPosition());
             }
         } catch (Exception e) {}
 
@@ -63,61 +58,58 @@ public class Lexer {
             s.close();
         }
     }
-
  
-/**
- *  newIdTokens are either ids or reserved words; new id's will be inserted
- *  in the symbol table with an indication that they are id's
- *  @param id is the String just scanned - it's either an id or reserved word
- *  @param startPosition is the column in the source file where the token begins
- *  @param endPosition is the column in the source file where the token ends
- *  @return the Token; either an id or one for the reserved words
-*/
-    public Token newIdToken(String id,int startPosition,int endPosition) {
-        return new Token(startPosition,endPosition,Symbol.symbol(id,Tokens.Identifier));
+    /**
+     *  newIdTokens are either ids or reserved words; new id's will be inserted
+     *  in the symbol table with an indication that they are id's
+     *  @param id is the String just scanned - it's either an id or reserved word
+     *  @param startPosition is the column in the source file where the token begins
+     *  @param endPosition is the column in the source file where the token ends
+     *  @return the Token; either an id or one for the reserved words
+     */
+    public Token newIdToken(String id, int startPosition, int endPosition) {
+        return new Token(startPosition, endPosition, Symbol.symbol(id, Tokens.Identifier));
     }
 
-/**
- *  number tokens are inserted in the symbol table; we don't convert the 
- *  numeric strings to numbers until we load the bytecodes for interpreting;
- *  this ensures that any machine numeric dependencies are deferred
- *  until we actually run the program; i.e. the numeric constraints of the
- *  hardware used to compile the source program are not used
- *  @param number is the int String just scanned
- *  @param startPosition is the column in the source file where the int begins
- *  @param endPosition is the column in the source file where the int ends
- *  @return the int Token
-*/
-    public Token newNumberToken(String number,int startPosition,int endPosition) {
-        return new Token(startPosition,endPosition,
-            Symbol.symbol(number,Tokens.INTeger));
+    /**
+     *  number tokens are inserted in the symbol table; we don't convert the 
+     *  numeric strings to numbers until we load the bytecodes for interpreting;
+     *  this ensures that any machine numeric dependencies are deferred
+     *  until we actually run the program; i.e. the numeric constraints of the
+     *  hardware used to compile the source program are not used
+     *  @param number is the int String just scanned
+     *  @param startPosition is the column in the source file where the int begins
+     *  @param endPosition is the column in the source file where the int ends
+     *  @return the int Token
+     */
+    public Token newNumberToken(String number, int startPosition, int endPosition) {
+        return new Token(startPosition, endPosition, Symbol.symbol(number, Tokens.INTeger));
     }
     
-/**
- *  float tokens are inserted in the symbol table; we don't convert the 
- *  numeric strings to numbers until we load the bytecodes for interpreting;
- *  this ensures that any machine numeric dependencies are deferred
- *  until we actually run the program; i.e. the numeric constraints of the
- *  hardware used to compile the source program are not used
- *  @param floatNumber is the float String just scanned
- *  @param startPosition is the column in the source file where the float begins
- *  @param endPosition is the column in the source file where the float ends
- *  @return the float Token
-*/
-    public Token newFloatToken(String floatNumber,int startPosition,int endPosition) {
-        return new Token(startPosition,endPosition,
-            Symbol.symbol(floatNumber,Tokens.Float));
+    /**
+     *  float tokens are inserted in the symbol table; we don't convert the 
+     *  numeric strings to numbers until we load the bytecodes for interpreting;
+     *  this ensures that any machine numeric dependencies are deferred
+     *  until we actually run the program; i.e. the numeric constraints of the
+     *  hardware used to compile the source program are not used
+     *  @param floatNumber is the float String just scanned
+     *  @param startPosition is the column in the source file where the float begins
+     *  @param endPosition is the column in the source file where the float ends
+     *  @return the float Token
+     */
+    public Token newFloatToken(String floatNumber, int startPosition, int endPosition) {
+        return new Token(startPosition, endPosition, Symbol.symbol(floatNumber, Tokens.Float));
     }
 
-/**
- *  build the token for operators (+ -) or separators (parens, braces)
- *  filter out comments which begin with two slashes
- *  @param s is the String representing the token
- *  @param startPosition is the column in the source file where the token begins
- *  @param endPosition is the column in the source file where the token ends
- *  @return the Token just found
-*/
-    public Token makeToken(String s,int startPosition,int endPosition) {
+    /**
+     *  build the token for operators (+ -) or separators (parens, braces)
+     *  filter out comments which begin with two slashes
+     *  @param s is the String representing the token
+     *  @param startPosition is the column in the source file where the token begins
+     *  @param endPosition is the column in the source file where the token ends
+     *  @return the Token just found
+     */
+    public Token makeToken(String s, int startPosition, int endPosition) {
         if (s.equals("//")) {  // filter comment
             try {
                int oldLine = source.getLineno();
@@ -136,11 +128,11 @@ public class Lexer {
              return nextToken();
         }
         return new Token(startPosition,endPosition,sym);
-        }
+    }
 
-/**
- *  @return the next Token found in the source file
-*/
+    /**
+     *  @return the next Token found in the source file
+     */
     public Token nextToken() { // ch is always the next char to process
         if (atEOF) {
             if (source != null) {
@@ -172,7 +164,7 @@ public class Lexer {
             } catch (Exception e) {
                 atEOF = true;
             }
-            return newIdToken(id,startPosition,endPosition);
+            return newIdToken(id, startPosition, endPosition);
         }
         if (Character.isDigit(ch)) {
             // return number or float tokens
@@ -195,8 +187,7 @@ public class Lexer {
             
             if (isFloat) {
                 return newFloatToken(number,startPosition,endPosition);
-            }
-            else {
+            } else {
                 return newNumberToken(number,startPosition,endPosition);
             }
         }   
@@ -234,16 +225,16 @@ public class Lexer {
             // token
             sym = Symbol.symbol(op, Tokens.BogusToken); 
             if (sym == null) {  // it must be a one char token
-                return makeToken(charOld,startPosition,endPosition);
+                return makeToken(charOld, startPosition, endPosition);
             }
             endPosition++;
             ch = source.read();
-            return makeToken(op,startPosition,endPosition);
+            return makeToken(op, startPosition, endPosition);
         } catch (Exception e) {}
         atEOF = true;
         if (startPosition == endPosition) {
             op = charOld;
         }
-        return makeToken(op,startPosition,endPosition);
+        return makeToken(op, startPosition, endPosition);
     }
 }
