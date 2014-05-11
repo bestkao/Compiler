@@ -18,15 +18,15 @@ to run the debugger
 
 ## Debugger commands
 
-[break]  Set/Clear breakpoints
-[fct]    Display the current function
-[cont]   Continue execution
-[var]    Display variables
-[stpout] Step out of the current activation of a function
-[stpovr] Step over a line
-[stpin]  Step into a function
-[list]   List breakpoints
-[call]   Print callstack
-[trace]  Set function tracing
-[src]    Display the source code (with breakpoints)
+[break]  Set/Clear breakpoints<br>
+[fct]    Display the current function<br>
+[cont]   Continue execution<br>
+[var]    Display variables<br>
+[stpout] Step out of the current activation of a function<br>
+[stpovr] Step over a line<br>
+[stpin]  Step into a function<br>
+[list]   List breakpoints<br>
+[call]   Print callstack<br>
+[trace]  Set function tracing<br>
+[src]    Display the source code (with breakpoints)<br>
 [q]      Quit
