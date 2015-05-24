@@ -1,20 +1,16 @@
-# Compiler for the X language
+# Compiler for a subset of the C language
 
 Final project for CSC 413: Software Development.
 
-An interpreter and debugger designed from bytecodes of the X language.
+An interpreter and debugger designed from bytecodes of a subset of the C language.
 
 ## Usage Notes
 
 To run the project from the command line type the following:
 
-java -jar "Interpreter.jar" <filename.x.cod>
+`java -jar "Interpreter.jar" <filename.x.cod>` to run the interpreter and
 
-to run the interpreter and
-
-java -jar "Interpreter.jar" -d <filename no extension>
-
-to run the debugger
+`java -jar "Interpreter.jar" -d <filename no extension>` to run the debugger
 
 ## Debugger commands
 
