@@ -1,8 +1,8 @@
-# Compiler for a subset of the C language
+# Compiler for a subset of C
 
 Final project for CSC 413: Software Development.
 
-An interpreter and debugger designed from bytecodes of a subset of the C language.
+An interpreter and debugger designed from bytecodes of a subset of C
 
 ## Usage Notes
 
