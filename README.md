@@ -1,8 +1,8 @@
-# Compiler for a subset of C
+# Compiler for a subset of Java
 
 Final project for CSC 413: Software Development.
 
-An interpreter and debugger designed from bytecodes of a subset of C
+An interpreter and debugger designed from bytecodes of a subset of Java
 
 ## Usage Notes
 
